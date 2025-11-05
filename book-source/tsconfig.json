@@ -3,6 +3,7 @@
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
+    "esModuleInterop": true,
     "paths": {
       "@/*": ["src/*"]
     }

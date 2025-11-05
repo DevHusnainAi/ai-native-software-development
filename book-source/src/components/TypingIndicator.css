@@ -1,0 +1,55 @@
+/* Typing Indicator Styles - Polar Night Theme */
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--polar-night-gray);
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+[data-theme="dark"] .typing-dot {
+  background: var(--polar-night-light);
+}
+
+/* Light mode */
+:root:not([data-theme="dark"]) .typing-dot {
+  background: var(--polar-night-deep);
+  opacity: 0.6;
+}
+

@@ -1,0 +1,996 @@
+/* ============================================================================
+   AGENTIC INTERFACE STYLES - Split Pane Layout with Polar Night Theme
+   ============================================================================
+
+   This file provides styles for the interactive agentic learning interface,
+   featuring a 50/50 split-screen layout with chat, terminal, and canvas panels.
+
+   Design System: Polar Night Theme
+   - Deep Navy: var(--polar-night-deep, #001f3f)
+   - Charcoal: var(--polar-night-charcoal, #111111)
+   - Gray: var(--polar-night-gray, #aaaaaa)
+   - Light: var(--polar-night-light, #dddddd)
+   - White: var(--polar-night-white, #ffffff)
+   ============================================================================ */
+
+/* ============================================================================
+   SPACING SYSTEM
+   ============================================================================ */
+:root {
+  --agentic-spacing-xs: 0.5rem;
+  --agentic-spacing-sm: 0.75rem;
+  --agentic-spacing-md: 1rem;
+  --agentic-spacing-lg: 1.5rem;
+  --agentic-spacing-xl: 2rem;
+  /* Reserved vertical height for the input area at the bottom of chat */
+  --agentic-input-height: 88px;
+}
+
+/* ============================================================================
+   LAYOUT: SPLIT-SCREEN ACTIVATION
+   ============================================================================ */
+
+/* NORMAL MODE - When interface is DISABLED, allow normal scrolling */
+.main-wrapper:not(.agentic-interface-active) {
+  height: auto !important;
+  max-height: none !important;
+  min-height: auto !important;
+  overflow-y: auto !important;
+  flex-direction: column !important;
+}
+
+.main-wrapper:not(.agentic-interface-active) > .container {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+}
+
+.main-wrapper:not(.agentic-interface-active) .theme-doc-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  overflow-y: auto !important;
+}
+
+/* Hide TOC only when interface is active - SIDEBAR + CHAT MODE */
+.agentic-interface-active .table-of-contents,
+.agentic-interface-active .theme-doc-toc-desktop,
+.agentic-interface-active .theme-doc-toc-mobile,
+.agentic-interface-active [class*="toc"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  max-width: 0 !important;
+  min-width: 0 !important;
+  flex: 0 0 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* FORCE .main-wrapper to be flex row - SIDEBAR + CHAT LAYOUT */
+body.agentic-interface-active .main-wrapper,
+html.agentic-interface-active .main-wrapper,
+.agentic-interface-active .main-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  gap: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  /* CRITICAL: Constrain to viewport height */
+  height: calc(100vh - var(--ifm-navbar-height, 60px)) !important;
+  max-height: calc(100vh - var(--ifm-navbar-height, 60px)) !important;
+  min-height: calc(100vh - var(--ifm-navbar-height, 60px)) !important;
+  position: relative !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Hide container completely when chat is active */
+body.agentic-interface-active > div > main.main-wrapper > div.container,
+html.agentic-interface-active .main-wrapper > div.container:first-child,
+body.agentic-interface-active .main-wrapper > div.container:first-child,
+.agentic-interface-active .main-wrapper > div.container:first-child,
+body.agentic-interface-active .main-wrapper > .container,
+html.agentic-interface-active .main-wrapper > .container,
+.agentic-interface-active .main-wrapper > .container {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  max-width: 0 !important;
+  min-width: 0 !important;
+  flex: 0 0 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Hide sidebar - multiple selectors */
+.agentic-interface-active .theme-doc-sidebar-container,
+.agentic-interface-active
+  .main-wrapper
+  > .container
+  > .theme-doc-sidebar-container,
+.agentic-interface-active
+  .main-wrapper
+  .container
+  .theme-doc-sidebar-container {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  flex-basis: 0 !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Book content wrapper - ONLY this scrolls within the 100vh container */
+.agentic-interface-active .theme-doc-wrapper,
+.agentic-interface-active .main-wrapper .theme-doc-wrapper,
+.agentic-interface-active .container .theme-doc-wrapper,
+body.agentic-interface-active .theme-doc-wrapper,
+html.agentic-interface-active .theme-doc-wrapper,
+.agentic-interface-active [class*="theme-doc-wrapper"],
+.agentic-interface-active [class*="docMainContainer"],
+.agentic-interface-active [class*="docPage"] {
+  width: 50% !important;
+  max-width: 50% !important;
+  min-width: 0 !important;
+  flex: 0 0 50% !important;
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+  flex-basis: 50% !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  margin: 0 !important;
+  /* CRITICAL: Remove padding, add it to inner wrapper instead */
+  padding: 0 !important;
+  /* CRITICAL: Fill parent height and enable scrolling */
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  /* CRITICAL: Ensure scrolling works in flex context */
+  min-height: 0 !important;
+}
+
+/* Ensure all children of theme-doc-wrapper don't prevent scrolling */
+.agentic-interface-active .theme-doc-wrapper > *,
+body.agentic-interface-active .theme-doc-wrapper > * {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow-y: visible !important;
+}
+
+/* Ensure article doesn't prevent scrolling - let content flow naturally */
+.agentic-interface-active .theme-doc-wrapper article,
+body.agentic-interface-active .theme-doc-wrapper article,
+.agentic-interface-active article {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  /* CRITICAL: Use smaller padding to fit within 50% width */
+  padding: 1rem !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  height: auto !important;
+  min-height: 100% !important;
+  max-height: none !important;
+  display: block !important;
+}
+
+/* Custom scrollbar for theme-doc-wrapper */
+.agentic-interface-active .theme-doc-wrapper::-webkit-scrollbar {
+  width: 12px;
+}
+
+.agentic-interface-active .theme-doc-wrapper::-webkit-scrollbar-track {
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 6px;
+}
+
+.agentic-interface-active .theme-doc-wrapper::-webkit-scrollbar-thumb {
+  background: var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+}
+
+.agentic-interface-active .theme-doc-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--ifm-color-emphasis-400);
+}
+
+/* Ensure markdown content flows naturally */
+.agentic-interface-active .theme-doc-wrapper .markdown,
+body.agentic-interface-active .theme-doc-wrapper .markdown,
+.agentic-interface-active .markdown {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  box-sizing: border-box !important;
+  height: auto !important;
+  min-height: 100% !important;
+  max-height: none !important;
+}
+
+/* Override doc-pages.css max-width constraint */
+.agentic-interface-active .theme-doc-wrapper .markdown > *,
+.agentic-interface-active .theme-doc-wrapper .markdown > p,
+.agentic-interface-active .theme-doc-wrapper .markdown > ul,
+.agentic-interface-active .theme-doc-wrapper .markdown > ol,
+.agentic-interface-active .theme-doc-wrapper .markdown > blockquote,
+.agentic-interface-active .theme-doc-wrapper .markdown > h1,
+.agentic-interface-active .theme-doc-wrapper .markdown > h2,
+.agentic-interface-active .theme-doc-wrapper .markdown > h3,
+.agentic-interface-active .theme-doc-wrapper .markdown > h4,
+.agentic-interface-active .theme-doc-wrapper .markdown > h5,
+.agentic-interface-active .theme-doc-wrapper .markdown > h6 {
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow-x: hidden !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  box-sizing: border-box !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Agentic side panel - 100% height, takes remaining space with sidebar visible */
+body.agentic-interface-active .main-wrapper > .agentic-side-panel,
+html.agentic-interface-active .main-wrapper > .agentic-side-panel,
+.agentic-interface-active .main-wrapper > .agentic-side-panel,
+.agentic-side-panel {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  flex-shrink: 0 !important;
+  border-left: 1px solid rgba(170, 170, 170, 0.12) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 100% !important;
+  z-index: 10000 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: var(--ifm-background-surface-color);
+}
+
+/* Remove debug banner - commented out
+.agentic-side-panel::before {
+  content: "🔴 CHAT PANEL 🔴" !important;
+  display: block !important;
+  background: red !important;
+  color: white !important;
+  padding: 40px !important;
+  font-size: 32px !important;
+  font-weight: bold !important;
+  text-align: center !important;
+  z-index: 99999 !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+}
+*/
+
+[data-theme="dark"] .agentic-side-panel {
+  background: var(--ifm-background-surface-color);
+  border-left-color: rgba(170, 170, 170, 0.12);
+}
+
+/* CRITICAL: Ensure .container children are in a row */
+.agentic-interface-active .main-wrapper > .container > *,
+.agentic-interface-active .main-wrapper .container > * {
+  flex-shrink: 0 !important;
+  flex-wrap: nowrap !important;
+}
+
+/* DEBUG: Style ALL elements that are NOT the side panel */
+/* DISABLED - This was causing duplicate 50% width elements!
+.agentic-interface-active
+  .main-wrapper
+  > .container
+  > *:not(.agentic-side-panel),
+.agentic-interface-active
+  .main-wrapper
+  .container
+  > *:not(.agentic-side-panel) {
+  background: rgba(0, 255, 255, 0.15) !important;
+  width: 50% !important;
+  min-width: 0 !important;
+  max-width: 50% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  flex: 0 0 50% !important;
+}
+*/
+
+/* ============================================================================
+   INTERFACE LAYOUT STRUCTURE
+   ============================================================================ */
+
+.agentic-interface-side {
+  display: flex;
+  flex-direction: column;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 100% !important;
+  width: 100% !important;
+  overflow-x: hidden;
+  overflow-y: visible;
+  background: var(--ifm-background-surface-color);
+  box-sizing: border-box;
+  padding: 0;
+  flex: 1 1 0;
+  align-self: stretch;
+  position: relative;
+}
+
+/* Chat Toolbar with New Chat button */
+.chat-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+  flex-shrink: 0;
+}
+
+.new-chat-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--ifm-color-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.new-chat-button:hover {
+  background: var(--ifm-color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 31, 63, 0.2);
+}
+
+.new-chat-button:active {
+  transform: translateY(0);
+}
+
+.new-chat-icon {
+  font-size: 1.1rem;
+}
+
+[data-theme="dark"] .new-chat-button {
+  background: var(--ifm-color-primary-light);
+  color: var(--polar-night-charcoal);
+}
+
+/* Header - Hidden for professional look */
+.agentic-interface-header {
+  display: none !important;
+}
+
+.agentic-interface-header h2 {
+  display: none !important;
+}
+
+.chapter-badge {
+  padding: 0.25rem 0.75rem;
+  background: rgba(0, 31, 63, 0.1);
+  color: var(--polar-night-deep);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .chapter-badge {
+  background: rgba(170, 170, 170, 0.15);
+  color: var(--ifm-color-primary-light);
+}
+
+.close-button {
+  padding: 0.5rem 1rem;
+  background: var(--ifm-color-emphasis-300);
+  color: var(--ifm-font-color-base);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.close-button:hover {
+  background: var(--ifm-color-emphasis-400);
+  transform: translateY(-1px);
+}
+
+/* Chat Messages Area - Top (flexible height, takes all available space) */
+.agentic-chat-messages-area {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  align-self: stretch !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: auto !important;
+}
+
+/* Terminal Area - Bottom (fixed height) */
+.agentic-terminal-area {
+  flex: 0 0 35%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  width: 100%;
+  box-sizing: border-box;
+  align-self: stretch;
+}
+
+/* ============================================================================
+   CHAT PANEL STYLES
+   ============================================================================ */
+
+.agentic-chat {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+  align-self: stretch !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+}
+
+/* Chat header - Hidden for professional look */
+.chat-header {
+  display: none !important;
+}
+
+.chat-header h3 {
+  display: none !important;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--agentic-spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--agentic-spacing-md);
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  /* Ensure content never hides behind the bottom input bar */
+  padding-bottom: calc(var(--agentic-input-height) + 16px) !important;
+}
+
+/* Custom scrollbar styling */
+.chat-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--ifm-color-emphasis-400);
+}
+
+.welcome-message {
+  padding: var(--agentic-spacing-md);
+  background: rgba(0, 31, 63, 0.08);
+  border-radius: 8px;
+  color: var(--polar-night-deep);
+  border: 1px solid rgba(0, 31, 63, 0.15);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+[data-theme="dark"] .welcome-message {
+  background: rgba(170, 170, 170, 0.1);
+  color: var(--ifm-color-primary-light);
+  border-color: rgba(170, 170, 170, 0.2);
+}
+
+/* Message bubbles */
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  animation: messageSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.user {
+  align-self: flex-end;
+}
+
+.message.assistant {
+  align-self: flex-start;
+}
+
+.message-content {
+  padding: var(--agentic-spacing-sm) var(--agentic-spacing-md);
+  border-radius: 12px;
+  max-width: 85%;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.message.user .message-content {
+  background: var(--polar-night-deep);
+  color: var(--polar-night-white);
+}
+
+[data-theme="dark"] .message.user .message-content {
+  background: var(--ifm-color-primary);
+  color: var(--polar-night-charcoal);
+}
+
+.message.assistant .message-content {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-font-color-base);
+}
+
+[data-theme="dark"] .message.assistant .message-content {
+  background: rgba(170, 170, 170, 0.12);
+  color: var(--ifm-color-primary-light);
+}
+
+.message-timestamp {
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+  padding: 0 var(--agentic-spacing-sm);
+  font-weight: 500;
+}
+
+/* Chat input form */
+.chat-input-form {
+  display: flex;
+  gap: var(--agentic-spacing-sm);
+  padding: var(--agentic-spacing-md);
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+  flex-shrink: 0;
+}
+
+.chat-input {
+  flex: 1;
+  padding: var(--agentic-spacing-sm) var(--agentic-spacing-md);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  transition: all 0.2s ease;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: var(--polar-night-deep);
+  box-shadow: 0 0 0 3px rgba(0, 31, 63, 0.1);
+}
+
+[data-theme="dark"] .chat-input:focus {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 3px rgba(170, 170, 170, 0.1);
+}
+
+.send-button {
+  padding: var(--agentic-spacing-sm) var(--agentic-spacing-lg);
+  background: var(--polar-night-deep);
+  color: var(--polar-night-white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.send-button:hover:not(:disabled) {
+  background: var(--ifm-color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 31, 63, 0.2);
+}
+
+.send-button:disabled {
+  background: var(--ifm-color-emphasis-300);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+[data-theme="dark"] .send-button {
+  background: var(--ifm-color-primary);
+  color: var(--polar-night-charcoal);
+}
+
+[data-theme="dark"] .send-button:hover:not(:disabled) {
+  background: var(--ifm-color-primary-light);
+}
+
+/* ============================================================================
+   TERMINAL PANEL STYLES
+   ============================================================================ */
+
+.terminal-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100% !important;
+  width: 100% !important;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--agentic-spacing-sm) var(--agentic-spacing-md);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+  flex-shrink: 0;
+}
+
+.terminal-header h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ifm-font-color-base);
+}
+
+.terminal-header .status {
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+  font-weight: 500;
+}
+
+.terminal-container {
+  flex: 1;
+  padding: var(--agentic-spacing-sm);
+  background: #1e1e1e;
+  overflow: auto;
+  font-family: "Courier New", Courier, monospace;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.terminal-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.terminal-container::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+.terminal-container::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+.terminal-container::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+.terminal-panel.error {
+  padding: var(--agentic-spacing-md);
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.1);
+  border-radius: 4px;
+  margin: var(--agentic-spacing-md);
+}
+
+/* ============================================================================
+   CANVAS PANEL STYLES
+   ============================================================================ */
+
+.canvas-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.canvas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--agentic-spacing-sm) var(--agentic-spacing-md);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+  flex-shrink: 0;
+}
+
+.canvas-header h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ifm-font-color-base);
+}
+
+.canvas-controls {
+  display: flex;
+  gap: var(--agentic-spacing-xs);
+}
+
+.canvas-controls button {
+  padding: 0.25rem var(--agentic-spacing-sm);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-background-surface-color);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--ifm-font-color-base);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.canvas-controls button:hover {
+  background: var(--ifm-color-emphasis-100);
+  border-color: var(--ifm-color-emphasis-400);
+}
+
+.canvas-content {
+  flex: 1;
+  overflow: auto;
+  padding: var(--agentic-spacing-md);
+  background: var(--ifm-background-surface-color);
+}
+
+.canvas-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: var(--ifm-color-emphasis-600);
+  text-align: center;
+  gap: var(--agentic-spacing-sm);
+}
+
+.canvas-error {
+  padding: var(--agentic-spacing-md);
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  color: #856404;
+  margin: var(--agentic-spacing-md);
+}
+
+[data-theme="dark"] .canvas-error {
+  background: rgba(255, 193, 7, 0.1);
+  border-color: rgba(255, 193, 7, 0.3);
+  color: #ffd54f;
+}
+
+.canvas-error pre {
+  margin-top: var(--agentic-spacing-sm);
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+
+.mermaid-diagram {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--agentic-spacing-lg);
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+/* Tablet: Adjust split to 40/60 */
+@media (max-width: 1280px) {
+  .agentic-interface-active .theme-doc-wrapper {
+    width: 40%;
+    max-width: 40%;
+  }
+
+  .agentic-side-panel {
+    width: 60%;
+  }
+}
+
+/* Mobile: Stack vertically with tabs */
+@media (max-width: 996px) {
+  .agentic-interface-active .main-wrapper {
+    flex-direction: column;
+  }
+
+  .agentic-interface-active .theme-doc-wrapper {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: none; /* Hide when interface is active on mobile */
+  }
+
+  .agentic-side-panel {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: var(--ifm-navbar-height);
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+
+  .agentic-toggle-button {
+    bottom: 15px;
+    right: 15px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  /* Adjust panel heights for mobile */
+  .agentic-chat-messages-area {
+    flex: 1;
+  }
+
+  .agentic-terminal-area {
+    flex: 0.6;
+    min-height: 200px;
+  }
+}
+
+/* Small mobile: Further optimizations */
+@media (max-width: 768px) {
+  .agentic-interface-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .chat-header h3,
+  .terminal-header h3 {
+    font-size: 1rem;
+  }
+
+  .message-content {
+    max-width: 90%;
+    font-size: 0.9rem;
+  }
+
+  .chapter-badge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+}
+
+/* ============================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================================================ */
+
+/* Focus states for keyboard navigation */
+.agentic-toggle-button:focus-visible,
+.close-button:focus-visible,
+.send-button:focus-visible,
+.canvas-controls button:focus-visible {
+  outline: 2px solid var(--polar-night-deep);
+  outline-offset: 2px;
+}
+
+[data-theme="dark"] .agentic-toggle-button:focus-visible,
+[data-theme="dark"] .close-button:focus-visible,
+[data-theme="dark"] .send-button:focus-visible,
+[data-theme="dark"] .canvas-controls button:focus-visible {
+  outline-color: var(--ifm-color-primary);
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .agentic-side-panel {
+    border-left-width: 2px;
+  }
+
+  .message-content {
+    border: 1px solid currentColor;
+  }
+
+  .chat-input {
+    border-width: 2px;
+  }
+}
+
+/* Chat Input Area - Absolutely Stuck to Bottom */
+.agentic-chat-input-area {
+  flex-shrink: 0 !important;
+  border-top: 1px solid var(--ifm-color-emphasis-200) !important;
+  background: var(--ifm-background-surface-color) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 100 !important;
+  margin-top: auto !important;
+}
+
+.agentic-chat-input-area .chat-input-form {
+  margin: 0;
+  padding: 1rem 2rem;
+  border-top: none;
+  border-bottom: none;
+}

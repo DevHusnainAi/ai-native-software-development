@@ -19,7 +19,11 @@
     "@docusaurus/preset-classic": "3.9.2",
     "@docusaurus/theme-common": "3.9.2",
     "@mdx-js/react": "^3.0.0",
+    "@webcontainer/api": "^1.1.9",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/xterm": "^5.5.0",
     "clsx": "^2.0.0",
+    "mermaid": "^11.4.1",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
