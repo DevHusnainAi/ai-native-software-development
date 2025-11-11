@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Terminal } from '@xterm/xterm';
-import { FitAddon } from '@xterm/addon-fit';
-import '@xterm/xterm/css/xterm.css';
-import { useWebContainer } from '../hooks/useWebContainer';
-             
+import React, { useEffect, useRef, useState } from "react";
+import { Terminal } from "@xterm/xterm";
+import { FitAddon } from "@xterm/addon-fit";
+import "@xterm/xterm/css/xterm.css";
+import { useWebContainer } from "../hooks/useWebContainer";
+
 interface TerminalPanelProps {
   sessionId?: string;
   onReady?: () => void;
@@ -15,23 +15,30 @@ export function TerminalPanel({ sessionId, onReady }: TerminalPanelProps) {
   const fitAddonRef = useRef<FitAddon | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [terminalError, setTerminalError] = useState<string | null>(null);
-  const { webcontainer, isInitialized, isLoading, error, initialize, createSession } = useWebContainer();
+  const {
+    webcontainer,
+    isInitialized,
+    isLoading,
+    error,
+    initialize,
+    createSession,
+  } = useWebContainer();
 
   // Initialize xterm.js terminal
   useEffect(() => {
     if (!terminalRef.current || terminalInstanceRef.current) return;
 
     try {
-      console.log('[TerminalPanel] Initializing xterm.js...');
+      console.log("[TerminalPanel] Initializing xterm.js...");
 
       const terminal = new Terminal({
         cursorBlink: true,
         fontSize: 14,
         fontFamily: '"Courier New", Courier, monospace',
         theme: {
-          background: '#111111', // Polar Night charcoal
-          foreground: '#dddddd', // Polar Night light
-          cursor: '#aaaaaa', // Polar Night gray
+          background: "#111111", // Polar Night charcoal
+          foreground: "#dddddd", // Polar Night light
+          cursor: "#aaaaaa", // Polar Night gray
           // selection: '#001f3f', // Polar Night deep
         },
         rows: 20,
@@ -47,20 +54,20 @@ export function TerminalPanel({ sessionId, onReady }: TerminalPanelProps) {
       setTimeout(() => {
         try {
           fitAddon.fit();
-          console.log('[TerminalPanel] Terminal fitted to container');
+          console.log("[TerminalPanel] Terminal fitted to container");
         } catch (err) {
-          console.warn('[TerminalPanel] Fit error:', err);
+          console.warn("[TerminalPanel] Fit error:", err);
         }
       }, 100);
 
       terminalInstanceRef.current = terminal;
       fitAddonRef.current = fitAddon;
 
-      terminal.writeln('Welcome to the AI-Native Development Terminal!');
-      terminal.writeln('Initializing WebContainer...');
-      terminal.writeln('');
+      terminal.writeln("Welcome to the AI-Native Development Terminal!");
+      terminal.writeln("Initializing WebContainer...");
+      terminal.writeln("");
 
-      console.log('[TerminalPanel] xterm.js initialized successfully');
+      console.log("[TerminalPanel] xterm.js initialized successfully");
 
       // Handle window resize
       const handleResize = () => {
@@ -68,68 +75,82 @@ export function TerminalPanel({ sessionId, onReady }: TerminalPanelProps) {
           try {
             fitAddonRef.current.fit();
           } catch (err) {
-            console.warn('[TerminalPanel] Resize fit error:', err);
+            console.warn("[TerminalPanel] Resize fit error:", err);
           }
         }
       };
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
 
       return () => {
-        console.log('[TerminalPanel] Cleaning up terminal...');
-        window.removeEventListener('resize', handleResize);
+        console.log("[TerminalPanel] Cleaning up terminal...");
+        window.removeEventListener("resize", handleResize);
         terminal.dispose();
         terminalInstanceRef.current = null;
         fitAddonRef.current = null;
       };
     } catch (err) {
-      console.error('[TerminalPanel] Failed to initialize xterm:', err);
-      setTerminalError(err instanceof Error ? err.message : 'Failed to initialize terminal');
+      console.error("[TerminalPanel] Failed to initialize xterm:", err);
+      setTerminalError(
+        err instanceof Error ? err.message : "Failed to initialize terminal"
+      );
     }
   }, []);
 
   // Setup WebContainer terminal session
   useEffect(() => {
-    if (!isInitialized || !webcontainer || isReady || !terminalInstanceRef.current) return;
+    if (
+      !isInitialized ||
+      !webcontainer ||
+      isReady ||
+      !terminalInstanceRef.current
+    )
+      return;
 
     const setupTerminal = async () => {
       try {
         const terminal = terminalInstanceRef.current;
         if (!terminal) {
-          console.error('[TerminalPanel] Terminal instance not found');
+          console.error("[TerminalPanel] Terminal instance not found");
           return;
         }
 
-        console.log('[TerminalPanel] Setting up WebContainer session...');
-        terminal.writeln('Starting shell...');
+        console.log("[TerminalPanel] Setting up WebContainer session...");
+        terminal.writeln("Starting shell...");
 
         const { process: shellProcess } = await createSession((data) => {
           terminal.write(data);
         });
 
-        console.log('[TerminalPanel] Shell process created');
+        console.log("[TerminalPanel] Shell process created");
 
         // Send input to shell
         terminal.onData((data) => {
           try {
             shellProcess.input.write(data);
           } catch (err) {
-            console.error('[TerminalPanel] Error writing to shell:', err);
+            console.error("[TerminalPanel] Error writing to shell:", err);
           }
         });
 
-        terminal.writeln('\r\nTerminal ready! Type commands below:\r\n');
+        terminal.writeln("\r\nTerminal ready! Type commands below:\r\n");
         setIsReady(true);
         onReady?.();
-        console.log('[TerminalPanel] Terminal fully initialized');
+        console.log("[TerminalPanel] Terminal fully initialized");
       } catch (err) {
-        console.error('[TerminalPanel] Terminal setup error:', err);
+        console.error("[TerminalPanel] Terminal setup error:", err);
         const terminal = terminalInstanceRef.current;
         if (terminal) {
-          terminal.writeln('');
-          terminal.writeln(`\x1b[31mError: ${err instanceof Error ? err.message : 'Unknown error'}\x1b[0m`);
-          terminal.writeln('Please refresh the page to try again.');
+          terminal.writeln("");
+          terminal.writeln(
+            `\x1b[31mError: ${
+              err instanceof Error ? err.message : "Unknown error"
+            }\x1b[0m`
+          );
+          terminal.writeln("Please refresh the page to try again.");
         }
-        setTerminalError(err instanceof Error ? err.message : 'Failed to setup terminal');
+        setTerminalError(
+          err instanceof Error ? err.message : "Failed to setup terminal"
+        );
       }
     };
 
@@ -139,7 +160,7 @@ export function TerminalPanel({ sessionId, onReady }: TerminalPanelProps) {
   // Auto-initialize WebContainer
   useEffect(() => {
     if (!isInitialized && !isLoading && !error) {
-      console.log('[TerminalPanel] Auto-initializing WebContainer...');
+      console.log("[TerminalPanel] Auto-initializing WebContainer...");
       initialize();
     }
   }, [isInitialized, isLoading, error, initialize]);
@@ -147,17 +168,27 @@ export function TerminalPanel({ sessionId, onReady }: TerminalPanelProps) {
   // Show WebContainer error
   if (error) {
     return (
-      <div className="terminal-panel">
-        <div className="terminal-header">
-          <h3>Terminal</h3>
-          <span className="status" style={{ color: '#dc3545' }}>Error</span>
+      <div className="flex h-full w-full flex-col overflow-hidden">
+        <div className="flex items-center justify-between border-b border-[var(--ifm-color-emphasis-200)] bg-[var(--ifm-background-surface-color)] px-3 py-2">
+          <h3 className="m-0 text-lg font-semibold text-[var(--ifm-font-color-base)]">
+            Terminal
+          </h3>
+          <span
+            className="text-xs font-medium text-[var(--ifm-color-emphasis-600)]"
+            style={{ color: "#dc3545" }}
+          >
+            Error
+          </span>
         </div>
-        <div className="terminal-panel error">
-          <p><strong>WebContainer Initialization Error:</strong></p>
+        <div className="m-4 rounded border border-[#ffc107] bg-[#fff3cd] p-4 text-[#856404] dark:border-[rgba(255,193,7,0.3)] dark:bg-[rgba(255,193,7,0.1)] dark:text-[#ffd54f]">
+          <p>
+            <strong>WebContainer Initialization Error:</strong>
+          </p>
           <p>{error.message}</p>
-          <p style={{ fontSize: '0.875rem', marginTop: '1rem', opacity: 0.8 }}>
-            WebContainers require a modern browser with SharedArrayBuffer support.
-            Please ensure you're using Chrome, Edge, or another Chromium-based browser.
+          <p className="mt-4 text-sm opacity-80">
+            WebContainers require a modern browser with SharedArrayBuffer
+            support. Please ensure you're using Chrome, Edge, or another
+            Chromium-based browser.
           </p>
         </div>
       </div>
@@ -167,13 +198,22 @@ export function TerminalPanel({ sessionId, onReady }: TerminalPanelProps) {
   // Show terminal initialization error
   if (terminalError) {
     return (
-      <div className="terminal-panel">
-        <div className="terminal-header">
-          <h3>Terminal</h3>
-          <span className="status" style={{ color: '#dc3545' }}>Error</span>
+      <div className="flex h-full w-full flex-col overflow-hidden">
+        <div className="flex items-center justify-between border-b border-[var(--ifm-color-emphasis-200)] bg-[var(--ifm-background-surface-color)] px-3 py-2">
+          <h3 className="m-0 text-lg font-semibold text-[var(--ifm-font-color-base)]">
+            Terminal
+          </h3>
+          <span
+            className="text-xs font-medium text-[var(--ifm-color-emphasis-600)]"
+            style={{ color: "#dc3545" }}
+          >
+            Error
+          </span>
         </div>
-        <div className="terminal-panel error">
-          <p><strong>Terminal Initialization Error:</strong></p>
+        <div className="m-4 rounded border border-[#ffc107] bg-[#fff3cd] p-4 text-[#856404] dark:border-[rgba(255,193,7,0.3)] dark:bg-[rgba(255,193,7,0.1)] dark:text-[#ffd54f]">
+          <p>
+            <strong>Terminal Initialization Error:</strong>
+          </p>
           <p>{terminalError}</p>
         </div>
       </div>
@@ -181,37 +221,37 @@ export function TerminalPanel({ sessionId, onReady }: TerminalPanelProps) {
   }
 
   return (
-    <div 
-      className="terminal-panel"
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        margin: 0,
-        padding: 0,
-        boxSizing: 'border-box',
-        overflow: 'hidden',
-      }}
-    >
-      <div className="terminal-header">
-        <h3>Terminal</h3>
-        {isLoading && <span className="status">Booting WebContainer...</span>}
-        {isInitialized && !isReady && <span className="status">Starting shell...</span>}
-        {isReady && <span className="status" style={{ color: '#28a745' }}>Ready</span>}
+    <div className="flex h-full w-full flex-col overflow-hidden">
+      <div className="flex shrink-0 items-center justify-between border-b border-[var(--ifm-color-emphasis-200)] bg-[var(--ifm-background-surface-color)] px-3 py-2">
+        <h3 className="m-0 text-lg font-semibold text-[var(--ifm-font-color-base)]">
+          Terminal
+        </h3>
+        {isLoading && (
+          <span className="text-xs font-medium text-[var(--ifm-color-emphasis-600)]">
+            Booting WebContainer...
+          </span>
+        )}
+        {isInitialized && !isReady && (
+          <span className="text-xs font-medium text-[var(--ifm-color-emphasis-600)]">
+            Starting shell...
+          </span>
+        )}
+        {isReady && (
+          <span
+            className="text-xs font-medium text-[var(--ifm-color-emphasis-600)]"
+            style={{ color: "#28a745" }}
+          >
+            Ready
+          </span>
+        )}
       </div>
-      <div 
-        ref={terminalRef} 
-        className="terminal-container"
+      <div
+        ref={terminalRef}
+        className="terminal-container flex-1 overflow-auto bg-[#1e1e1e] p-2 font-mono"
         style={{
-          flex: 1,
-          width: '100%',
-          margin: 0,
-          padding: 0,
-          overflow: 'hidden',
+          fontFamily: '"Courier New", Courier, monospace',
         }}
       />
     </div>
   );
 }
-

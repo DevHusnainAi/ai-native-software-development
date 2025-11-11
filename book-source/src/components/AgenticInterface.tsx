@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useChapterId } from "../utils/chapter";
 import type { AgenticInterfaceState } from "../types/agentic";
 import { AgenticChat } from "./AgenticChat";
@@ -17,7 +17,6 @@ export function AgenticInterface({
   // Extract chapter_id from route if not provided
   const routeChapterId = useChapterId();
   const chapterId = propChapterId || routeChapterId;
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +28,9 @@ export function AgenticInterface({
   });
 
   // Shared session ID - initialize once and share between both chat instances
-  const [sharedSessionId, setSharedSessionId] = useState<string | undefined>(undefined);
+  const [sharedSessionId, setSharedSessionId] = useState<string | undefined>(
+    undefined
+  );
 
   // Update chapter_id when route changes
   useEffect(() => {
@@ -41,61 +42,9 @@ export function AgenticInterface({
     }
   }, [routeChapterId]);
 
-  // Scroll to bottom when messages change
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [state.chatHistory]);
-
   return (
-    <>
-      <div className="agentic-interface-side">
-        {/* Chat Messages Area - Top (55% height) */}
-        <div className="agentic-chat-messages-area">
-          <AgenticChat
-            chapterId={chapterId}
-            sessionId={sharedSessionId}
-            chatHistory={state.chatHistory}
-            onMessage={(message) => {
-              setState((prev) => ({
-                ...prev,
-                chatHistory: [...prev.chatHistory, message],
-              }));
-            }}
-            onLoadingChange={setIsLoading}
-            onError={(errorMessage) => {
-              setError(errorMessage);
-            }}
-            onSessionIdChange={(sessionId) => {
-              setSharedSessionId(sessionId);
-            }}
-            showInputOnly={false}
-          />
-        </div>
-
-        {/* Chat Input - Middle (fixed height) */}
-
-        {/* Terminal Panel - Bottom (45% height, always visible)
-      <div 
-        className="agentic-terminal-area"
-      >
-        <TerminalPanel
-          sessionId={sharedSessionId}
-          onReady={() => {
-            setState((prev) => ({ ...prev, terminalReady: true }));
-          }}
-        /> */}
-        {/* </div> */}
-
-        {/* Error Popup */}
-        <ErrorPopup
-          error={error}
-          onClose={() => setError(null)}
-          autoClose={false}
-        />
-      </div>
-      <div className="agentic-chat-input-area">
+    <div className="flex h-full w-full flex-col overflow-hidden rounded-3xl border border-polar-night-gray/20 bg-white/80 shadow-2xl backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:border-neutral-800 dark:bg-neutral-900/80">
+      <div className="flex-1 overflow-hidden">
         <AgenticChat
           chapterId={chapterId}
           sessionId={sharedSessionId}
@@ -105,7 +54,28 @@ export function AgenticInterface({
               ...prev,
               chatHistory: [...prev.chatHistory, message],
             }));
-            // Update shared session ID if it comes from the message
+          }}
+          onLoadingChange={setIsLoading}
+          onError={(errorMessage) => {
+            setError(errorMessage);
+          }}
+          onSessionIdChange={(sessionId) => {
+            setSharedSessionId(sessionId);
+          }}
+          showInputOnly={false}
+        />
+      </div>
+
+      <div className="shrink-0 border-t border-[var(--ifm-color-emphasis-200)] bg-[var(--ifm-background-surface-color)] px-0 py-0">
+        <AgenticChat
+          chapterId={chapterId}
+          sessionId={sharedSessionId}
+          chatHistory={state.chatHistory}
+          onMessage={(message) => {
+            setState((prev) => ({
+              ...prev,
+              chatHistory: [...prev.chatHistory, message],
+            }));
             if (!sharedSessionId && message.sessionId) {
               setSharedSessionId(message.sessionId);
             }
@@ -120,7 +90,12 @@ export function AgenticInterface({
           showInputOnly={true}
         />
       </div>
-    </>
+
+      <ErrorPopup
+        error={error}
+        onClose={() => setError(null)}
+        autoClose={false}
+      />
+    </div>
   );
 }
-

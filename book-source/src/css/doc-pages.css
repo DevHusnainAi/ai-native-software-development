@@ -1,33 +1,28 @@
 /**
- * ============================================================================
- * DOC PAGES PREMIUM STYLING
- * Enhances chapter/doc pages to match the beautiful main page design
- * Polar Night Theme - Consistent for Light & Dark Modes
- * ============================================================================
+ * DOC PAGES STYLING
+ * Minimal CSS for Docusaurus-generated markdown content
+ * Only what can't be done with Tailwind utilities
  */
 
-/* ============================================================================
-   1. TYPOGRAPHY & READING EXPERIENCE
-   ============================================================================ */
-
-/* Main article container - optimal reading width */
+/* Main article container */
 article {
   max-width: 100%;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Enhanced body text */
 .markdown {
   line-height: 1.8;
   font-size: 1.0625rem;
-  color: #2c3e50;
+  color: #404040;
 }
 
-[data-theme='dark'] .markdown {
-  color: #d0d0d0;
+[data-theme="dark"] .markdown {
+  color: #d4d4d4;
 }
 
-/* Optimal reading width for paragraphs */
+/* Optimal reading width */
 .markdown > p,
 .markdown > ul,
 .markdown > ol,
@@ -35,7 +30,7 @@ article {
   max-width: 75ch;
 }
 
-/* Better paragraph spacing */
+/* Paragraph spacing */
 .markdown p {
   margin-bottom: 1.5rem;
   line-height: 1.8;
@@ -45,50 +40,46 @@ article {
   margin-bottom: 0;
 }
 
-/* ============================================================================
-   2. PREMIUM HEADING STYLES (Matching Homepage Design)
-   ============================================================================ */
-
-/* H1 - Gradient effect like homepage */
+/* H1 - Gradient effect */
 .markdown h1 {
   font-size: 2.75rem;
   font-weight: 700;
   line-height: 1.2;
   margin-top: 0;
   margin-bottom: 2rem;
+  position: relative;
+  letter-spacing: -0.02em;
   background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  position: relative;
-  letter-spacing: -0.02em;
 }
 
-[data-theme='dark'] .markdown h1 {
-  background: linear-gradient(135deg, #DDDDDD 0%, #AAAAAA 50%, #FFFFFF 100%);
+[data-theme="dark"] .markdown h1 {
+  background: linear-gradient(135deg, #dddddd 0%, #aaaaaa 50%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* H1 decorative underline */
+/* H1 decorative underline - pseudo-element */
 .markdown h1::after {
-  content: '';
+  content: "";
   display: block;
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, #001f3f 0%, #003366 100%);
+  width: 5rem;
+  height: 0.25rem;
   margin-top: 1rem;
-  border-radius: 2px;
+  border-radius: 0.25rem;
+  background: linear-gradient(90deg, #001f3f 0%, #003366 100%);
 }
 
-[data-theme='dark'] .markdown h1::after {
-  background: linear-gradient(90deg, #AAAAAA 0%, #888888 100%);
+[data-theme="dark"] .markdown h1::after {
+  background: linear-gradient(90deg, #aaaaaa 0%, #888888 100%);
 }
 
 /* H2 - Accent underline */
 .markdown h2 {
-  font-size: 2rem;
+  font-size: 1.875rem;
   font-weight: 700;
   line-height: 1.3;
   margin-top: 3rem;
@@ -96,32 +87,32 @@ article {
   color: #001f3f;
   position: relative;
   padding-bottom: 0.75rem;
-  border-bottom: 3px solid rgba(0, 31, 63, 0.15);
   letter-spacing: -0.01em;
+  border-bottom: 3px solid rgba(0, 31, 63, 0.15);
 }
 
-[data-theme='dark'] .markdown h2 {
-  color: #DDDDDD;
+[data-theme="dark"] .markdown h2 {
+  color: #dddddd;
   border-bottom-color: rgba(170, 170, 170, 0.2);
 }
 
-/* H2 decorative element */
+/* H2 decorative element - pseudo-element */
 .markdown h2::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -3px;
   left: 0;
   width: 60px;
-  height: 3px;
+  height: 0.125rem;
+  border-radius: 0.125rem;
   background: linear-gradient(90deg, #001f3f 0%, #003366 100%);
-  border-radius: 2px;
 }
 
-[data-theme='dark'] .markdown h2::before {
-  background: linear-gradient(90deg, #AAAAAA 0%, #DDDDDD 100%);
+[data-theme="dark"] .markdown h2::before {
+  background: linear-gradient(90deg, #aaaaaa 0%, #dddddd 100%);
 }
 
-/* H3 - Subtle styling */
+/* H3 */
 .markdown h3 {
   font-size: 1.5rem;
   font-weight: 600;
@@ -133,27 +124,27 @@ article {
   padding-left: 1rem;
 }
 
-[data-theme='dark'] .markdown h3 {
-  color: #CCCCCC;
+[data-theme="dark"] .markdown h3 {
+  color: #d4d4d4;
 }
 
-/* H3 left border accent */
+/* H3 left border accent - pseudo-element */
 .markdown h3::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 4px;
+  width: 0.25rem;
+  border-radius: 0.25rem;
   background: linear-gradient(180deg, #001f3f 0%, #003366 100%);
-  border-radius: 2px;
 }
 
-[data-theme='dark'] .markdown h3::before {
-  background: linear-gradient(180deg, #AAAAAA 0%, #888888 100%);
+[data-theme="dark"] .markdown h3::before {
+  background: linear-gradient(180deg, #aaaaaa 0%, #888888 100%);
 }
 
-/* H4, H5, H6 - Consistent styling */
+/* H4, H5, H6 */
 .markdown h4 {
   font-size: 1.25rem;
   font-weight: 600;
@@ -162,8 +153,8 @@ article {
   color: #003366;
 }
 
-[data-theme='dark'] .markdown h4 {
-  color: #BBBBBB;
+[data-theme="dark"] .markdown h4 {
+  color: #d4d4d4;
 }
 
 .markdown h5 {
@@ -174,8 +165,8 @@ article {
   color: #004080;
 }
 
-[data-theme='dark'] .markdown h5 {
-  color: #AAAAAA;
+[data-theme="dark"] .markdown h5 {
+  color: #aaaaaa;
 }
 
 .markdown h6 {
@@ -188,11 +179,11 @@ article {
   letter-spacing: 0.05em;
 }
 
-[data-theme='dark'] .markdown h6 {
-  color: #999999;
+[data-theme="dark"] .markdown h6 {
+  color: #a3a3a3;
 }
 
-/* Anchor links hover effect */
+/* Anchor links */
 .markdown h1 .header-anchor,
 .markdown h2 .header-anchor,
 .markdown h3 .header-anchor,
@@ -200,17 +191,17 @@ article {
 .markdown h5 .header-anchor,
 .markdown h6 .header-anchor {
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 150ms;
   color: #001f3f;
 }
 
-[data-theme='dark'] .markdown h1 .header-anchor,
-[data-theme='dark'] .markdown h2 .header-anchor,
-[data-theme='dark'] .markdown h3 .header-anchor,
-[data-theme='dark'] .markdown h4 .header-anchor,
-[data-theme='dark'] .markdown h5 .header-anchor,
-[data-theme='dark'] .markdown h6 .header-anchor {
-  color: #AAAAAA;
+[data-theme="dark"] .markdown h1 .header-anchor,
+[data-theme="dark"] .markdown h2 .header-anchor,
+[data-theme="dark"] .markdown h3 .header-anchor,
+[data-theme="dark"] .markdown h4 .header-anchor,
+[data-theme="dark"] .markdown h5 .header-anchor,
+[data-theme="dark"] .markdown h6 .header-anchor {
+  color: #aaaaaa;
 }
 
 .markdown h1:hover .header-anchor,
@@ -222,39 +213,33 @@ article {
   opacity: 1;
 }
 
-/* ============================================================================
-   3. ENHANCED LINKS
-   ============================================================================ */
-
+/* Enhanced links */
 .markdown a {
   color: #001f3f;
   text-decoration: none;
-  border-bottom: 1px solid rgba(0, 31, 63, 0.3);
-  transition: all 0.2s ease;
   font-weight: 500;
+  transition: all 150ms;
+  border-bottom: 1px solid rgba(0, 31, 63, 0.3);
 }
 
-[data-theme='dark'] .markdown a {
-  color: #AAAAAA;
+[data-theme="dark"] .markdown a {
+  color: #aaaaaa;
   border-bottom-color: rgba(170, 170, 170, 0.4);
 }
 
 .markdown a:hover {
   color: #003366;
+  background-color: rgba(0, 31, 63, 0.05);
   border-bottom-color: #001f3f;
-  background: rgba(0, 31, 63, 0.05);
 }
 
-[data-theme='dark'] .markdown a:hover {
-  color: #DDDDDD;
-  border-bottom-color: #AAAAAA;
-  background: rgba(170, 170, 170, 0.1);
+[data-theme="dark"] .markdown a:hover {
+  color: #dddddd;
+  background-color: rgba(170, 170, 170, 0.1);
+  border-bottom-color: #aaaaaa;
 }
 
-/* ============================================================================
-   4. ENHANCED LISTS
-   ============================================================================ */
-
+/* Enhanced lists */
 .markdown ul,
 .markdown ol {
   margin-bottom: 1.5rem;
@@ -271,26 +256,26 @@ article {
   margin-bottom: 0;
 }
 
-/* Custom bullets for unordered lists */
+/* Custom bullets for unordered lists - pseudo-element */
 .markdown ul > li {
   list-style: none;
   padding-left: 0.5rem;
 }
 
 .markdown ul > li::before {
-  content: '▸';
+  content: "▸";
   position: absolute;
   left: -1.5rem;
-  color: #001f3f;
   font-weight: 700;
   font-size: 1.1em;
+  color: #001f3f;
 }
 
-[data-theme='dark'] .markdown ul > li::before {
-  color: #AAAAAA;
+[data-theme="dark"] .markdown ul > li::before {
+  color: #aaaaaa;
 }
 
-/* Enhanced ordered lists */
+/* Enhanced ordered lists - pseudo-element */
 .markdown ol {
   counter-reset: item;
 }
@@ -304,15 +289,15 @@ article {
   content: counter(item) ".";
   position: absolute;
   left: -2rem;
-  color: #001f3f;
   font-weight: 700;
   font-size: 0.95em;
+  color: #001f3f;
   width: 1.5rem;
   text-align: right;
 }
 
-[data-theme='dark'] .markdown ol > li::before {
-  color: #AAAAAA;
+[data-theme="dark"] .markdown ol > li::before {
+  color: #aaaaaa;
 }
 
 /* Nested lists */
@@ -322,28 +307,39 @@ article {
   margin-bottom: 0.75rem;
 }
 
-/* ============================================================================
-   5. BLOCKQUOTES - PREMIUM STYLING
-   ============================================================================ */
-
+/* Blockquotes */
 .markdown blockquote {
-  margin: 2rem 0;
-  padding: 1.5rem 2rem;
-  background: linear-gradient(135deg, rgba(0, 31, 63, 0.03) 0%, rgba(0, 31, 63, 0.06) 100%);
-  border-left: 4px solid #001f3f;
-  border-radius: 0 8px 8px 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   position: relative;
   font-size: 1.0625rem;
   line-height: 1.8;
-  color: #2c3e50;
+  color: #404040;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 31, 63, 0.03) 0%,
+    rgba(0, 31, 63, 0.06) 100%
+  );
+  border-left: 4px solid #001f3f;
 }
 
-[data-theme='dark'] .markdown blockquote {
-  background: linear-gradient(135deg, rgba(170, 170, 170, 0.05) 0%, rgba(170, 170, 170, 0.08) 100%);
-  border-left-color: #AAAAAA;
+[data-theme="dark"] .markdown blockquote {
+  color: #d4d4d4;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-  color: #d0d0d0;
+  background: linear-gradient(
+    135deg,
+    rgba(170, 170, 170, 0.05) 0%,
+    rgba(170, 170, 170, 0.08) 100%
+  );
+  border-left-color: #aaaaaa;
 }
 
 .markdown blockquote p {
@@ -354,59 +350,59 @@ article {
   margin-bottom: 0;
 }
 
-/* Blockquote decorative element */
+/* Blockquote decorative element - pseudo-element */
 .markdown blockquote::before {
   content: '"';
   position: absolute;
   top: -0.25rem;
   left: 0.75rem;
-  font-size: 4rem;
+  font-size: 3.75rem;
+  line-height: 1;
   color: rgba(0, 31, 63, 0.15);
   font-family: Georgia, serif;
-  line-height: 1;
 }
 
-[data-theme='dark'] .markdown blockquote::before {
+[data-theme="dark"] .markdown blockquote::before {
   color: rgba(170, 170, 170, 0.2);
 }
 
-/* ============================================================================
-   6. CODE BLOCKS - ENHANCED STYLING
-   ============================================================================ */
-
 /* Inline code */
 .markdown code {
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid;
+  font-weight: 500;
+  font-size: 0.9em;
   background: rgba(0, 31, 63, 0.08);
   color: #001f3f;
-  padding: 0.2em 0.5em;
-  border-radius: 4px;
-  font-size: 0.9em;
-  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-  border: 1px solid rgba(0, 31, 63, 0.12);
-  font-weight: 500;
+  border-color: rgba(0, 31, 63, 0.12);
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Courier New", monospace;
 }
 
-[data-theme='dark'] .markdown code {
+[data-theme="dark"] .markdown code {
+  color: #dddddd;
   background: rgba(170, 170, 170, 0.12);
-  color: #DDDDDD;
   border-color: rgba(170, 170, 170, 0.2);
 }
 
 /* Code blocks */
 .markdown pre {
-  margin: 2rem 0;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
-[data-theme='dark'] .markdown pre {
+[data-theme="dark"] .markdown pre {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .markdown pre code {
-  background: transparent;
-  border: none;
+  background-color: transparent;
+  border: 0;
   padding: 0;
   font-size: 0.9rem;
   line-height: 1.6;
@@ -414,42 +410,42 @@ article {
 
 /* Code block wrapper */
 .prism-code {
-  padding: 1.5rem !important;
+  padding: 1.5rem;
 }
 
-/* ============================================================================
-   7. TABLES - PROFESSIONAL STYLING
-   ============================================================================ */
-
+/* Tables */
 .markdown table {
   width: 100%;
-  margin: 2rem 0;
-  border-collapse: collapse;
-  border-radius: 8px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   font-size: 0.95rem;
+  border-collapse: collapse;
 }
 
-[data-theme='dark'] .markdown table {
+[data-theme="dark"] .markdown table {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 .markdown thead {
-  background: linear-gradient(135deg, #001f3f 0%, #002952 100%);
+  background-image: linear-gradient(to bottom right, #001f3f, #002952);
   color: white;
 }
 
-[data-theme='dark'] .markdown thead {
+[data-theme="dark"] .markdown thead {
+  background-image: linear-gradient(to bottom right, #262626, #171717);
   background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-  color: #DDDDDD;
+  color: #dddddd;
 }
 
 .markdown th {
   padding: 1rem 1.5rem;
   text-align: left;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -458,51 +454,51 @@ article {
   border-bottom: 1px solid rgba(0, 31, 63, 0.1);
 }
 
-[data-theme='dark'] .markdown td {
+[data-theme="dark"] .markdown td {
   border-bottom-color: rgba(170, 170, 170, 0.1);
 }
 
 /* Zebra striping */
 .markdown tbody tr:nth-child(even) {
-  background: rgba(0, 31, 63, 0.03);
+  background-color: rgba(0, 31, 63, 0.03);
 }
 
-[data-theme='dark'] .markdown tbody tr:nth-child(even) {
-  background: rgba(170, 170, 170, 0.03);
+[data-theme="dark"] .markdown tbody tr:nth-child(even) {
+  background-color: rgba(170, 170, 170, 0.03);
 }
 
 /* Hover effect */
 .markdown tbody tr {
-  transition: background-color 0.2s ease;
+  transition: background-color 150ms;
 }
 
 .markdown tbody tr:hover {
-  background: rgba(0, 31, 63, 0.06);
+  background-color: rgba(0, 31, 63, 0.06);
 }
 
-[data-theme='dark'] .markdown tbody tr:hover {
-  background: rgba(170, 170, 170, 0.08);
+[data-theme="dark"] .markdown tbody tr:hover {
+  background-color: rgba(170, 170, 170, 0.08);
 }
 
-/* ============================================================================
-   8. HORIZONTAL RULES
-   ============================================================================ */
-
+/* Horizontal rules */
 .markdown hr {
   border: none;
   height: 1px;
-  background: linear-gradient(90deg,
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  background: linear-gradient(
+    90deg,
     transparent 0%,
     rgba(0, 31, 63, 0.3) 10%,
     rgba(0, 31, 63, 0.5) 50%,
     rgba(0, 31, 63, 0.3) 90%,
     transparent 100%
   );
-  margin: 3rem 0;
 }
 
-[data-theme='dark'] .markdown hr {
-  background: linear-gradient(90deg,
+[data-theme="dark"] .markdown hr {
+  background: linear-gradient(
+    90deg,
     transparent 0%,
     rgba(170, 170, 170, 0.2) 10%,
     rgba(170, 170, 170, 0.3) 50%,
@@ -511,111 +507,39 @@ article {
   );
 }
 
-/* ============================================================================
-   9. ADMONITIONS / CALLOUT BOXES
-   ============================================================================ */
-
-.admonition {
-  margin: 2rem 0;
-  padding: 1.5rem;
-  border-radius: 8px;
-  border-left: 4px solid;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  background: white;
-}
-
-[data-theme='dark'] .admonition {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-  background: #1a1a1a;
-}
-
-/* Note - Blue */
-.admonition-note {
-  border-left-color: #2196F3;
-  background: linear-gradient(135deg, rgba(33, 150, 243, 0.05) 0%, rgba(33, 150, 243, 0.08) 100%);
-}
-
-[data-theme='dark'] .admonition-note {
-  background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(33, 150, 243, 0.05) 100%);
-}
-
-/* Tip - Green */
-.admonition-tip {
-  border-left-color: #4CAF50;
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(76, 175, 80, 0.08) 100%);
-}
-
-[data-theme='dark'] .admonition-tip {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
-}
-
-/* Warning - Orange */
-.admonition-warning {
-  border-left-color: #FF9800;
-  background: linear-gradient(135deg, rgba(255, 152, 0, 0.05) 0%, rgba(255, 152, 0, 0.08) 100%);
-}
-
-[data-theme='dark'] .admonition-warning {
-  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 152, 0, 0.05) 100%);
-}
-
-/* Danger - Red */
-.admonition-danger {
-  border-left-color: #F44336;
-  background: linear-gradient(135deg, rgba(244, 67, 54, 0.05) 0%, rgba(244, 67, 54, 0.08) 100%);
-}
-
-[data-theme='dark'] .admonition-danger {
-  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(244, 67, 54, 0.05) 100%);
-}
-
-/* Info - Cyan */
-.admonition-info {
-  border-left-color: #00BCD4;
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.05) 0%, rgba(0, 188, 212, 0.08) 100%);
-}
-
-[data-theme='dark'] .admonition-info {
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.1) 0%, rgba(0, 188, 212, 0.05) 100%);
-}
-
-/* ============================================================================
-   10. IMAGES & MEDIA
-   ============================================================================ */
-
+/* Images */
 .markdown img {
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 2rem 0;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  transition: all 150ms;
 }
 
-[data-theme='dark'] .markdown img {
+[data-theme="dark"] .markdown img {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .markdown img:hover {
-  transform: translateY(-4px);
+  transform: translateY(-0.25rem);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-[data-theme='dark'] .markdown img:hover {
+[data-theme="dark"] .markdown img:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
-/* ============================================================================
-   11. STRONG & EMPHASIS
-   ============================================================================ */
-
+/* Strong & Emphasis */
 .markdown strong {
   font-weight: 700;
   color: #001f3f;
 }
 
-[data-theme='dark'] .markdown strong {
-  color: #DDDDDD;
+[data-theme="dark"] .markdown strong {
+  color: #dddddd;
 }
 
 .markdown em {
@@ -623,47 +547,147 @@ article {
   color: #002952;
 }
 
-[data-theme='dark'] .markdown em {
-  color: #CCCCCC;
+[data-theme="dark"] .markdown em {
+  color: #d4d4d4;
 }
 
-/* ============================================================================
-   12. PAGINATION & NAVIGATION
-   ============================================================================ */
+/* Admonitions */
+.admonition {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background-color: white;
+  border-left: 4px solid;
+}
 
+[data-theme="dark"] .admonition {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  background-color: #171717;
+}
+
+.admonition-note {
+  border-left-color: #3b82f6;
+  background: linear-gradient(
+    135deg,
+    rgba(33, 150, 243, 0.05) 0%,
+    rgba(33, 150, 243, 0.08) 100%
+  );
+}
+
+[data-theme="dark"] .admonition-note {
+  background: linear-gradient(
+    135deg,
+    rgba(33, 150, 243, 0.1) 0%,
+    rgba(33, 150, 243, 0.05) 100%
+  );
+}
+
+.admonition-tip {
+  border-left-color: #22c55e;
+  background: linear-gradient(
+    135deg,
+    rgba(76, 175, 80, 0.05) 0%,
+    rgba(76, 175, 80, 0.08) 100%
+  );
+}
+
+[data-theme="dark"] .admonition-tip {
+  background: linear-gradient(
+    135deg,
+    rgba(76, 175, 80, 0.1) 0%,
+    rgba(76, 175, 80, 0.05) 100%
+  );
+}
+
+.admonition-warning {
+  border-left-color: #f97316;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 152, 0, 0.05) 0%,
+    rgba(255, 152, 0, 0.08) 100%
+  );
+}
+
+[data-theme="dark"] .admonition-warning {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 152, 0, 0.1) 0%,
+    rgba(255, 152, 0, 0.05) 100%
+  );
+}
+
+.admonition-danger {
+  border-left-color: #ef4444;
+  background: linear-gradient(
+    135deg,
+    rgba(244, 67, 54, 0.05) 0%,
+    rgba(244, 67, 54, 0.08) 100%
+  );
+}
+
+[data-theme="dark"] .admonition-danger {
+  background: linear-gradient(
+    135deg,
+    rgba(244, 67, 54, 0.1) 0%,
+    rgba(244, 67, 54, 0.05) 100%
+  );
+}
+
+.admonition-info {
+  border-left-color: #06b6d4;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 188, 212, 0.05) 0%,
+    rgba(0, 188, 212, 0.08) 100%
+  );
+}
+
+[data-theme="dark"] .admonition-info {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 188, 212, 0.1) 0%,
+    rgba(0, 188, 212, 0.05) 100%
+  );
+}
+
+/* Pagination */
 .pagination-nav {
   margin-top: 4rem;
   padding-top: 2rem;
   border-top: 2px solid rgba(0, 31, 63, 0.1);
 }
 
-[data-theme='dark'] .pagination-nav {
+[data-theme="dark"] .pagination-nav {
   border-top-color: rgba(170, 170, 170, 0.15);
 }
 
 .pagination-nav__link {
-  border: 2px solid rgba(0, 31, 63, 0.15);
-  border-radius: 8px;
+  border: 2px solid;
+  border-radius: 0.5rem;
   padding: 1.5rem;
-  transition: all 0.3s ease;
-  background: white;
+  transition: all 150ms;
+  background-color: white;
+  border-color: rgba(0, 31, 63, 0.15);
 }
 
-[data-theme='dark'] .pagination-nav__link {
+[data-theme="dark"] .pagination-nav__link {
   border-color: rgba(170, 170, 170, 0.2);
-  background: #1a1a1a;
+  background-color: #171717;
 }
 
 .pagination-nav__link:hover {
   border-color: #001f3f;
-  background: rgba(0, 31, 63, 0.03);
-  transform: translateY(-2px);
+  background-color: rgba(0, 31, 63, 0.03);
+  transform: translateY(-0.125rem);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-[data-theme='dark'] .pagination-nav__link:hover {
-  border-color: #AAAAAA;
-  background: rgba(170, 170, 170, 0.05);
+[data-theme="dark"] .pagination-nav__link:hover {
+  border-color: #aaaaaa;
+  background-color: rgba(170, 170, 170, 0.05);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
@@ -672,47 +696,41 @@ article {
   color: #001f3f;
 }
 
-[data-theme='dark'] .pagination-nav__label {
-  color: #DDDDDD;
+[data-theme="dark"] .pagination-nav__label {
+  color: #dddddd;
 }
 
-/* ============================================================================
-   13. TABLE OF CONTENTS (TOC)
-   ============================================================================ */
-
+/* Table of Contents */
 .table-of-contents {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .table-of-contents__link {
   color: #003366;
-  transition: all 0.2s ease;
+  transition: all 150ms;
   border-left: 2px solid transparent;
   padding-left: 0.75rem;
 }
 
-[data-theme='dark'] .table-of-contents__link {
-  color: #AAAAAA;
+[data-theme="dark"] .table-of-contents__link {
+  color: #aaaaaa;
 }
 
 .table-of-contents__link:hover,
 .table-of-contents__link--active {
   color: #001f3f;
   border-left-color: #001f3f;
-  background: rgba(0, 31, 63, 0.05);
+  background-color: rgba(0, 31, 63, 0.05);
 }
 
-[data-theme='dark'] .table-of-contents__link:hover,
-[data-theme='dark'] .table-of-contents__link--active {
-  color: #DDDDDD;
-  border-left-color: #AAAAAA;
-  background: rgba(170, 170, 170, 0.08);
+[data-theme="dark"] .table-of-contents__link:hover,
+[data-theme="dark"] .table-of-contents__link--active {
+  color: #dddddd;
+  border-left-color: #aaaaaa;
+  background-color: rgba(170, 170, 170, 0.08);
 }
 
-/* ============================================================================
-   14. RESPONSIVE ADJUSTMENTS
-   ============================================================================ */
-
+/* Responsive */
 @media screen and (max-width: 996px) {
   .markdown {
     font-size: 1rem;
@@ -723,12 +741,12 @@ article {
   }
 
   .markdown h2 {
-    font-size: 1.75rem;
+    font-size: 1.875rem;
     margin-top: 2.5rem;
   }
 
   .markdown h3 {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
   }
 
   .markdown blockquote {
@@ -742,7 +760,7 @@ article {
   }
 
   .markdown h1 {
-    font-size: 2rem;
+    font-size: 1.875rem;
     margin-bottom: 1.5rem;
   }
 
@@ -761,38 +779,11 @@ article {
   }
 
   .markdown table {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
   }
 
   .markdown th,
   .markdown td {
     padding: 0.75rem 1rem;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .markdown h1 {
-    font-size: 1.75rem;
-  }
-
-  .markdown h2 {
-    font-size: 1.35rem;
-  }
-
-  .markdown h3 {
-    font-size: 1.15rem;
-  }
-
-  .markdown ul,
-  .markdown ol {
-    padding-left: 1.5rem;
-  }
-
-  .markdown blockquote {
-    padding: 0.875rem;
-  }
-
-  .admonition {
-    padding: 1.25rem;
   }
 }
